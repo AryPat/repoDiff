@@ -19,57 +19,35 @@ const Title = styled.div`
 `;
 
 const Buttons = styled.div`
-  display: grid;
-  width: 50%;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 5px 5px;
-  grid-template-areas:
-    "First First Enter"
-    "Second Second Enter";
+  display: flex;
+  flex-direction: column; 
+  width: 30%;
 `;
 
 const First = styled.div`
   justify-self: end;
   align-self: center;
-  grid-area: First;
-
   background: #ffffff;
   border: 5px solid #f5f7fa;
   box-sizing: border-box;
   box-shadow: 0px 8px 24px #eff3f9;
   border-radius: 40px;
   padding: 1rem;
-  width: 75%;
-`;
-
-const Second = styled.div`
-  justify-self: end;
-  align-self: center;
-  grid-area: Second;
-
-  background: #ffffff;
-  border: 5px solid #f5f7fa;
-  box-sizing: border-box;
-  box-shadow: 0px 8px 24px #eff3f9;
-  border-radius: 40px;
-  padding: 1rem;
-  width: 75%;
+  width: 100%;
 `;
 
 const Enter = styled.button`
   justify-self: start;
   align-self: center;
-  grid-area: Enter;
-
   background: #ffffff;
   border: 5px solid #f5f7fa;
   box-sizing: border-box;
   box-shadow: 0px 8px 24px #eff3f9;
   border-radius: 40px;
   padding: 1rem;
-  width: 45%;
-  height: 75%;
+  margin-top: 1rem;
+  width: 25%;
+  height: 100%;
 
   &:disabled {
     opacity: 0.9;
@@ -88,10 +66,9 @@ const Enter = styled.button`
 
 export default function App() {
   const [first, setFirst] = useState("");
-  const [second, setSecond] = useState("");
 
   useEffect(() => {
-    first.length && second.length
+    first.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
   });
@@ -111,14 +88,6 @@ export default function App() {
             onChange={(e) => setFirst(e.target?.value)}
           ></input>
         </First>
-        <Second>
-          <input
-            type="text"
-            placeholder="second-repo/name-here"
-            value={second}
-            onChange={(e) => setSecond(e.target?.value)}
-          ></input>
-        </Second>
         <Enter enabled id="buttonControl" onClick={()=>{console.log("TODO")}}>
           Enter
         </Enter>

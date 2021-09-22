@@ -27,8 +27,6 @@ const Buttons = styled.div`
 const First = styled.div`
   justify-self: end;
   align-self: center;
-  grid-area: First;
-
   background: #ffffff;
   border: 5px solid #f5f7fa;
   box-sizing: border-box;
@@ -41,8 +39,6 @@ const First = styled.div`
 const Enter = styled.button`
   justify-self: start;
   align-self: center;
-  grid-area: Enter;
-
   background: #ffffff;
   border: 5px solid #f5f7fa;
   box-sizing: border-box;

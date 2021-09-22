@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Typist from 'react-typist'
+import Typist from "react-typist";
 import "./App.css";
+import github from "./icons/github.svg";
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const Title = styled.div`
 
 const Buttons = styled.div`
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: space-evenly;
   width: 30%;
@@ -89,20 +90,18 @@ const CardInfo = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  
 `;
 
 const Info = styled.div`
-  width:50%;
+  width: 50%;
   height: 90%;
-  
+
   background: #ffffff;
   border: 5px solid #f5f7fa;
   box-sizing: border-box;
   box-shadow: 0px 8px 24px #eff3f9;
   border-radius: 40px;
-  padding: 1rem;
-
+  padding: 1.5rem;
 `;
 
 const Number = styled.div`
@@ -120,14 +119,14 @@ export default function App() {
     first.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
-  }, [result, percentage]);
+  }, [result, percentage, first]);
 
   return (
     <Container>
-      <Typist cursor={{show: false}}  ms={5000} avgTypingSpeed={30000}>
+      <Typist cursor={{ show: false }} ms={5000} avgTypingSpeed={30000}>
         <Title>oBITuary</Title>
       </Typist>
-      
+
       <Buttons>
         <First>
           <input
@@ -137,19 +136,30 @@ export default function App() {
             onChange={(e) => setFirst(e.target?.value)}
           ></input>
         </First>
-        <Enter enabled id="buttonControl" onClick={()=>{console.log("TODO")}}>
+        <Enter
+          enabled
+          id="buttonControl"
+          onClick={() => {
+            console.log("TODO");
+          }}
+        >
           Enter
         </Enter>
       </Buttons>
 
       <CardContainer>
-        <h3 style={{fontSize: '1.5rem', paddingLeft: '1rem'}}>{first}</h3>
+        <div style={{ display: "flex", flexDirection: "row", alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '1rem', height: '17%'}}>
+          <a href={first} target="__blank">
+            <img style={{transform: 'translateY(0.1rem)'}} src={github} alt="logo" width="40rem" class="space" />
+          </a>
+          <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>{first}</h3>
+        </div>
+
         <CardInfo>
           <Info>this is the information</Info>
           <number>{percentage}%</number>
         </CardInfo>
       </CardContainer>
-      
     </Container>
   );
 }

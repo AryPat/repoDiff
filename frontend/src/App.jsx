@@ -104,7 +104,7 @@ const Info = styled.div`
   padding: 1.5rem;
 `;
 
-const Number = styled.div`
+const number = styled.div`
   width: 100%;
   height: 100%;
 `;
@@ -120,7 +120,7 @@ export default function App() {
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
 
-    setGitHubLink("https://github.com/" + first)
+    setGitHubLink("https://github/" + first)
     console.log(gitHubLink)
   }, [result, percentage, first]);
 

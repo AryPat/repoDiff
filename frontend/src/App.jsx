@@ -119,6 +119,9 @@ export default function App() {
     first.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
+
+    setGitHubLink("https://github.com/" + first)
+    console.log(gitHubLink)
   }, [result, percentage, first]);
 
   return (
@@ -157,7 +160,7 @@ export default function App() {
 
         <CardInfo>
           <Info>this is the information</Info>
-          <number>{percentage}%</number>
+          <Number>{percentage}%</Number>
         </CardInfo>
       </CardContainer>
     </Container>

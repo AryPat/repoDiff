@@ -96,6 +96,9 @@ const Info = styled.div`
   width: 50%;
   height: 90%;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   background: #ffffff;
   border: 5px solid #f5f7fa;
   box-sizing: border-box;
@@ -104,25 +107,52 @@ const Info = styled.div`
   padding: 1.5rem;
 `;
 
-const number = styled.div`
+const Sepearte = styled.div`
   width: 100%;
-  height: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.1rem;
+`;
+
+const Number = styled.div`
+  font-size: 5vw;
+  transform: translatex(-1.5rem);
 `;
 
 export default function App() {
   const [first, setFirst] = useState("");
+  const [title, setTitle] = useState("")
   const [result, setResult] = useState({});
-  const [percentage, setPercentage] = useState(0);
+  const [percentage, setPercentage] = useState(60);
   const [gitHubLink, setGitHubLink] = useState("");
 
+  let sample = {
+    "Number of repo visits": 123,
+    "Number of UNIQUE repo visits": 32256,
+    "Number of repeat visits": 3242,
+    "Number of open issues": 100,
+    "Number of open pull requests": 3242,
+    "Average time an issue is open": "542 mins",
+    "Average time to merge a pull request": "42 mins",
+    "Percent of issues that get closed": "40%",
+  };
+
   useEffect(() => {
+    console.log(Object.keys(result).length)
     first.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
 
-    setGitHubLink("https://github/" + first)
-    console.log(gitHubLink)
+    setGitHubLink("https://github.com/" + first);
   }, [result, percentage, first]);
+
+  // should fetch our data and update the result
+  const fetchData = () => {
+    setTitle(first)
+    setResult({something:1})
+  }
 
   return (
     <Container>
@@ -143,26 +173,53 @@ export default function App() {
           enabled
           id="buttonControl"
           onClick={() => {
-            console.log("TODO");
+            fetchData();
           }}
         >
           Enter
         </Enter>
       </Buttons>
 
+      { Object.keys(result).length !== 0 && 
       <CardContainer>
-        <div style={{ display: "flex", flexDirection: "row", alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '1rem', height: '17%'}}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            paddingLeft: "1rem",
+            height: "17%",
+          }}
+        >
           <a href={first} target="__blank">
-            <img style={{transform: 'translateY(0.1rem)'}} src={github} alt="logo" width="40rem" class="space" />
+            <img
+              style={{ transform: "translateY(0.1rem)" }}
+              src={github}
+              alt="logo"
+              width="40rem"
+              class="space"
+            />
           </a>
-          <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>{first}</h3>
+          <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>{title}</h3>
         </div>
 
         <CardInfo>
-          <Info>this is the information</Info>
+          <Info>
+            {Object.keys(sample).map(function (key, index) {
+              return (
+                <Sepearte>
+                  <div>{key}</div>{" "}
+                  <div style={{ color: "grey" }}>{sample[key]}</div>
+                </Sepearte>
+              );
+            })}
+          </Info>
           <Number>{percentage}%</Number>
         </CardInfo>
+        
       </CardContainer>
+      }
     </Container>
   );
 }

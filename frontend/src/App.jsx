@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Typist from "react-typist";
 import "./App.css";
 import github from "./icons/github.svg";
+import * as routes from '../route/route.jsx'
 
 const Container = styled.div`
   display: flex;
@@ -140,7 +141,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(Object.keys(result).length);
+    console.log("HERE", result)
     first.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
@@ -148,32 +149,13 @@ export default function App() {
     setGitHubLink("https://github.com/" + first);
   }, [result, percentage, first]);
 
-  // should fetch our data and update the result
-  const fetchData = async (name, repo) => {
-    const { data } = await fetch("https://api.github.com/graphql", {
-      method: 'POST',
-      headers: {
-        Authorization: "bearer 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",
-      },
-      body: JSON.stringify({
-        query: `query { 
-          repositoryOwner(login: "${name}"){
-            repository(name:"${repo}"){
-              name
-              url
-            }
-          }
-        }`,
-      }),
-    })
-    .then(res => res.json())
-    .catch((err)=> console.log(err))
 
-    console.log(data)
-    setTitle(first);
-    setResult({ something: 1 });
-  };
-
+  const onSubmit =  (async() => {
+    const {data} = await routes.fetchRepoInformation(first.split('/')[0], first.split('/')[1])
+    setResult(data)
+    setTitle(first)
+  })
+  
   return (
     <Container>
       <Typist cursor={{ show: false }} ms={5000} avgTypingSpeed={30000}>
@@ -193,14 +175,14 @@ export default function App() {
           enabled
           id="buttonControl"
           onClick={() => {
-            fetchData(first.split('/')[0], first.split('/')[1]);
+            onSubmit();
           }}
         >
           Enter
         </Enter>
       </Buttons>
 
-      {Object.keys(result).length !== 0 && (
+      {result != null && Object.keys(result).length !== 0 && (
         <CardContainer>
           <div
             style={{

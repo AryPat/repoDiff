@@ -123,7 +123,7 @@ const Number = styled.div`
 
 export default function App() {
   const [first, setFirst] = useState("");
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState("");
   const [result, setResult] = useState({});
   const [percentage, setPercentage] = useState(60);
   const [gitHubLink, setGitHubLink] = useState("");
@@ -140,7 +140,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(Object.keys(result).length)
+    console.log(Object.keys(result).length);
     first.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
@@ -149,10 +149,30 @@ export default function App() {
   }, [result, percentage, first]);
 
   // should fetch our data and update the result
-  const fetchData = () => {
-    setTitle(first)
-    setResult({something:1})
-  }
+  const fetchData = async (name, repo) => {
+    const { data } = await fetch("https://api.github.com/graphql", {
+      method: 'POST',
+      headers: {
+        Authorization: "bearer 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",
+      },
+      body: JSON.stringify({
+        query: `query { 
+          repositoryOwner(login: "${name}"){
+            repository(name:"${repo}"){
+              name
+              url
+            }
+          }
+        }`,
+      }),
+    })
+    .then(res => res.json())
+    .catch((err)=> console.log(err))
+
+    console.log(data)
+    setTitle(first);
+    setResult({ something: 1 });
+  };
 
   return (
     <Container>
@@ -173,53 +193,52 @@ export default function App() {
           enabled
           id="buttonControl"
           onClick={() => {
-            fetchData();
+            fetchData(first.split('/')[0], first.split('/')[1]);
           }}
         >
           Enter
         </Enter>
       </Buttons>
 
-      { Object.keys(result).length !== 0 && 
-      <CardContainer>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            paddingLeft: "1rem",
-            height: "17%",
-          }}
-        >
-          <a href={first} target="__blank">
-            <img
-              style={{ transform: "translateY(0.1rem)" }}
-              src={github}
-              alt="logo"
-              width="40rem"
-              class="space"
-            />
-          </a>
-          <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>{title}</h3>
-        </div>
+      {Object.keys(result).length !== 0 && (
+        <CardContainer>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              paddingLeft: "1rem",
+              height: "17%",
+            }}
+          >
+            <a href={first} target="__blank">
+              <img
+                style={{ transform: "translateY(0.1rem)" }}
+                src={github}
+                alt="logo"
+                width="40rem"
+                class="space"
+              />
+            </a>
+            <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>{title}</h3>
+          </div>
 
-        <CardInfo>
-          <Info>
-            {Object.keys(sample).map(function (key, index) {
-              return (
-                <Separate>
-                  <div>{key}</div>{" "}
-                  <div style={{ color: "grey" }}>{sample[key]}</div>
-                </Separate>
-              );
-            })}
-          </Info>
-          <Number>{percentage}%</Number>
-        </CardInfo>
-        
-      </CardContainer>
-      }
+          <CardInfo>
+            <Info>
+              {Object.keys(sample).map(function (key, index) {
+                return (
+                  <Separate>
+                    <div>{key}</div>{" "}
+                    <div style={{ color: "grey" }}>{sample[key]}</div>
+                  </Separate>
+                );
+              })}
+            </Info>
+            <Number>{percentage}%</Number>
+          </CardInfo>
+        </CardContainer>
+      )}
     </Container>
   );
 }

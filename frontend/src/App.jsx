@@ -107,7 +107,7 @@ const Info = styled.div`
   padding: 1.5rem;
 `;
 
-const Sepearte = styled.div`
+const Separate = styled.div`
   width: 100%;
   height: 10%;
   display: flex;
@@ -208,10 +208,10 @@ export default function App() {
           <Info>
             {Object.keys(sample).map(function (key, index) {
               return (
-                <Sepearte>
+                <Separate>
                   <div>{key}</div>{" "}
                   <div style={{ color: "grey" }}>{sample[key]}</div>
-                </Sepearte>
+                </Separate>
               );
             })}
           </Info>

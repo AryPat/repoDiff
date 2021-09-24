@@ -205,7 +205,7 @@ export default function App() {
   return (
     <Container>
       <Typist cursor={{ show: false }} ms={5000} avgTypingSpeed={30000}>
-        <Title>oBITuary</Title>
+        <Title>repoDiff</Title>
       </Typist>
 
       <Buttons>

@@ -163,6 +163,20 @@ export default function App() {
         "Number of Releases": result.repoTwo.releases.releases,
         "Last Updated Time": result.repoTwo.updatedAt,
       });
+
+      if (result.repoOne.stargazers.stars > result.repoTwo.stargazers.stars){
+        document.getElementById("titleTwo").style.color = "red"
+        document.getElementById("title").style.color= "green"
+        document.getElementById("titleTwoBox").style.backgroundColor = "#ffe5e5"
+        document.getElementById("titleBox").style.backgroundColor= "#e4ffe4"
+      }
+      else if (result.repoOne.stargazers.stars < result.repoTwo.stargazers.stars){
+        document.getElementById("titleTwo").style.color= "green"
+        document.getElementById("title").style.color= "red"
+        document.getElementById("titleTwoBox").style.backgroundColor= "#e4ffe4"
+        document.getElementById("titleBox").style.backgroundColor= "#ffe5e5"
+      }
+
     }
   }, [result]);
 
@@ -244,7 +258,7 @@ export default function App() {
                   class="space"
                 />
               </a>
-              <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
+              <h3 id="title" style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
                 {title}
               </h3>
             </div>
@@ -259,7 +273,7 @@ export default function App() {
                 height: "17%",
               }}
             >
-              <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
+              <h3 id="titleTwo" style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
                 {titleTwo}
               </h3>
 
@@ -276,7 +290,7 @@ export default function App() {
           </Titles>
 
           <CardInfo>
-            <Info>
+            <Info  id = "titleBox">
               {Object.keys(mapped).map(function (key, index) {
                 return (
                   <Separate>
@@ -286,7 +300,7 @@ export default function App() {
                 );
               })}
             </Info>
-            <Info>
+            <Info  id = "titleTwoBox">
               {Object.keys(mappedTwo).map(function (key, index) {
                 return (
                   <Separate>

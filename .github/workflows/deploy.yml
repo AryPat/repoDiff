@@ -28,7 +28,7 @@ jobs:
     - name: Build production app
       run: |
         cd frontend
-        npm run build`
+        npm run build
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2

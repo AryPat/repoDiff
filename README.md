@@ -1,6 +1,20 @@
-# untitled
+# MLH Fellowship Orientation Hackathon Project
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-To Run Frontend
-  1. Cd into Frontend
-  2. npm install / yarn install 
-  3. npm run dev / yarn run dev
+Simplifying the repository research process by providing users with the metrics that matter. Easily compare the stats of two repositories of interest.
+
+
+<p align="center"><img src="https://cdn.discordapp.com/attachments/890761932380971009/890790069672226858/unknown.png" width="700px"/></p>
+
+## Installation & Run
+
+Fork and clone repo \
+Cd into Frontend directory: `cd frontend` \
+Install dependencies: `npm install`/`yarn install` \
+Start local server: `npm run dev`/ `yarn run dev` \
+Go to localhost via: `http://localhost:3000`
+
+## Contributing
+
+Bug reports and pull requests are welcome. Please open issues to provide feedback.
+

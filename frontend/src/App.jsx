@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Typist from "react-typist";
 import "./App.css";
 import github from "./icons/github.svg";
+import * as routes from "../route/route.jsx";
 
 const Container = styled.div`
   display: flex;
@@ -116,6 +117,15 @@ const Separate = styled.div`
   font-size: 1.1rem;
 `;
 
+const Titles = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 15%;
+  justify-content: space-between;
+`;
+
 const Number = styled.div`
   font-size: 5vw;
   transform: translatex(-1.5rem);
@@ -123,36 +133,74 @@ const Number = styled.div`
 
 export default function App() {
   const [first, setFirst] = useState("");
-  const [title, setTitle] = useState("")
+  const [second, setSecond] = useState("");
+  const [title, setTitle] = useState("");
+  const [titleTwo, setTitleTwo] = useState("");
   const [result, setResult] = useState({});
-  const [percentage, setPercentage] = useState(60);
+  const [mapped, setMapped] = useState({});
+  const [mappedTwo, setMappedTwo] = useState({});
   const [gitHubLink, setGitHubLink] = useState("");
-
-  let sample = {
-    "Number of repo visits": 123,
-    "Number of UNIQUE repo visits": 32256,
-    "Number of repeat visits": 3242,
-    "Number of open issues": 100,
-    "Number of open pull requests": 3242,
-    "Average time an issue is open": "542 mins",
-    "Average time to merge a pull request": "42 mins",
-    "Percent of issues that get closed": "40%",
-  };
+  const [gitHubLinkTwo, setGitHubLinkTwo] = useState("");
 
   useEffect(() => {
-    console.log(Object.keys(result).length)
-    first.length
+    if (Object.keys(result).length !== 0) {
+      setMapped({
+        "Number of Pull Request": result.repoOne.pullRequests.pullRequests,
+        "Number of Stars": result.repoOne.stargazers.stars,
+        "Number of Issues": result.repoOne.totalIssues.totalIssues,
+        "Number of Forks": result.repoOne.forks,
+        "Primary Language": result.repoOne.primaryLanguage.primaryLanguage,
+        "Number of Releases": result.repoOne.releases.releases,
+        "Last Updated Time": result.repoOne.updatedAt,
+      });
+
+      setMappedTwo({
+        "Number of Pull Request": result.repoTwo.pullRequests.pullRequests,
+        "Number of Stars": result.repoTwo.stargazers.stars,
+        "Number of Issues": result.repoTwo.totalIssues.totalIssues,
+        "Number of Forks": result.repoTwo.forks,
+        "Primary Language": result.repoTwo.primaryLanguage.primaryLanguage,
+        "Number of Releases": result.repoTwo.releases.releases,
+        "Last Updated Time": result.repoTwo.updatedAt,
+      });
+
+      if (result.repoOne.stargazers.stars > result.repoTwo.stargazers.stars){
+        document.getElementById("titleTwo").style.color = "red"
+        document.getElementById("title").style.color= "green"
+        document.getElementById("titleTwoBox").style.backgroundColor = "#ffe5e5"
+        document.getElementById("titleBox").style.backgroundColor= "#e4ffe4"
+      }
+      else if (result.repoOne.stargazers.stars < result.repoTwo.stargazers.stars){
+        document.getElementById("titleTwo").style.color= "green"
+        document.getElementById("title").style.color= "red"
+        document.getElementById("titleTwoBox").style.backgroundColor= "#e4ffe4"
+        document.getElementById("titleBox").style.backgroundColor= "#ffe5e5"
+      }
+
+    }
+  }, [result]);
+
+  useEffect(() => {
+    console.log(mapped);
+    first.length && second.length
       ? (document.getElementById("buttonControl").disabled = false)
       : (document.getElementById("buttonControl").disabled = true);
 
     setGitHubLink("https://github.com/" + first);
-  }, [result, percentage, first]);
+    setGitHubLinkTwo("https://github.com/" + second)
+  }, [first, second]);
 
-  // should fetch our data and update the result
-  const fetchData = () => {
-    setTitle(first)
-    setResult({something:1})
-  }
+  const onSubmit = async () => {
+    let { data } = await routes.fetchRepoInformation(
+      first.split("/")[0],
+      first.split("/")[1],
+      second.split("/")[0],
+      second.split("/")[1]
+    );
+    setResult(data);
+    setTitleTwo(second);
+    setTitle(first);
+  };
 
   return (
     <Container>
@@ -169,57 +217,102 @@ export default function App() {
             onChange={(e) => setFirst(e.target?.value)}
           ></input>
         </First>
+        <First>
+          <input
+            type="text"
+            placeholder="Second-repo/name-here"
+            value={second}
+            onChange={(e) => setSecond(e.target?.value)}
+          ></input>
+        </First>
         <Enter
           enabled
           id="buttonControl"
           onClick={() => {
-            fetchData();
+            onSubmit();
           }}
         >
           Enter
         </Enter>
       </Buttons>
 
-      { Object.keys(result).length !== 0 && 
-      <CardContainer>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            paddingLeft: "1rem",
-            height: "17%",
-          }}
-        >
-          <a href={first} target="__blank">
-            <img
-              style={{ transform: "translateY(0.1rem)" }}
-              src={github}
-              alt="logo"
-              width="40rem"
-              class="space"
-            />
-          </a>
-          <h3 style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>{title}</h3>
-        </div>
+      {result != null && Object.keys(result).length !== 0 && (
+        <CardContainer>
+          <Titles>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                paddingLeft: "1rem",
+                height: "17%",
+              }}
+            >
+              <a href={gitHubLink} target="__blank">
+                <img
+                  style={{ transform: "translateY(0.1rem)" }}
+                  src={github}
+                  alt="logo"
+                  width="40rem"
+                  class="space"
+                />
+              </a>
+              <h3 id="title" style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
+                {title}
+              </h3>
+            </div>
 
-        <CardInfo>
-          <Info>
-            {Object.keys(sample).map(function (key, index) {
-              return (
-                <Separate>
-                  <div>{key}</div>{" "}
-                  <div style={{ color: "grey" }}>{sample[key]}</div>
-                </Separate>
-              );
-            })}
-          </Info>
-          <Number>{percentage}%</Number>
-        </CardInfo>
-        
-      </CardContainer>
-      }
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingLeft: "1rem",
+                height: "17%",
+              }}
+            >
+              <h3 id="titleTwo" style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
+                {titleTwo}
+              </h3>
+
+              <a href={gitHubLinkTwo} target="__blank">
+                <img
+                  style={{ transform: "translateY(0.1rem)", paddingRight: "1rem", paddingLeft: "1rem" }}
+                  src={github}
+                  alt="logo"
+                  width="40rem"
+                  class="space"
+                />
+              </a>
+            </div>
+          </Titles>
+
+          <CardInfo>
+            <Info  id = "titleBox">
+              {Object.keys(mapped).map(function (key, index) {
+                return (
+                  <Separate>
+                    <div>{key}</div>{" "}
+                    <div style={{ color: "grey" }}>{mapped[key]}</div>
+                  </Separate>
+                );
+              })}
+            </Info>
+            <Info  id = "titleTwoBox">
+              {Object.keys(mappedTwo).map(function (key, index) {
+                return (
+                  <Separate>
+                    <div style={{ color: "grey" }}>{mappedTwo[key]}</div>
+                    <div>{key}</div>{" "}           
+                  </Separate>
+                );
+              })}
+            </Info>
+          </CardInfo>
+        </CardContainer>
+      )}
     </Container>
   );
 }

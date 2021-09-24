@@ -24,11 +24,12 @@ jobs:
       run: |
         cd frontend
         npm ci
+        ls -l node_modules/styled-components/dist/styled-components.browser.esm.js
 
     - name: Build production app
       run: |
         cd frontend
-        npm run build
+        npm run build4
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2

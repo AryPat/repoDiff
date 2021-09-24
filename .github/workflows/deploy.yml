@@ -24,7 +24,7 @@ jobs:
       run: |
         cd frontend
         npm ci
-        ls -l node_modules/styled-components/dist/styled-components.browser.esm.js
+        ls -l node_modules/hoist-non-react-statics/node_modules/react-is
 
     - name: Build production app
       run: |

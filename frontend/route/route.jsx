@@ -4,7 +4,7 @@ export const fetchRepoInformation = async (name, repo, name1, repo1) => {
   return await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
-      Authorization: "bearer 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",
+      Authorization: `bearer ${secrets.GRAPHQL_REPO_TOKEN}`,
     },
     body: JSON.stringify({
       query: `{

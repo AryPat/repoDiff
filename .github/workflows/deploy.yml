@@ -20,6 +20,9 @@ jobs:
       with:
         node-version: 13.x
 
+    - name: Move into frontend directory
+      run: cd frontend
+
     - name: Install NPM packages
       run: npm ci
 

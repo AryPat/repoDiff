@@ -4,7 +4,7 @@
 Simplifying the repository research process by providing users with the metrics that matter. Easily compare the stats of two repositories of interest.
 
 
-<p align="center"><img src="https://cdn.discordapp.com/attachments/890761932380971009/890790069672226858/unknown.png" width="700px"/></p>
+<p align="center"><img src="https://media.discordapp.net/attachments/803761510676693012/890951740818608139/unknown.png" width="700px"/></p>
 
 ## Installation & Run
 

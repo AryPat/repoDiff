@@ -20,20 +20,17 @@ jobs:
       with:
         node-version: 13.x
 
-    - name: Move into frontend directory
-      run: cd frontend
-
-    - name: Install NPM packages
-      run: npm ci
-
-    - name: Build project
-      run: npm run build
+    - name: Install NPM packages and build
+      run: |
+        cd frontend
+        npm ci
+        npm run build
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2
       with:
         name: production-files
-        path: ./dist
+        path: ./frontend/dist
 
   deploy:
     name: Deploy
